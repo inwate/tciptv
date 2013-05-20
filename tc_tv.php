@@ -91,7 +91,7 @@ class DemoTv extends AbstractTv
         
 
         //parse channels
-		$id = 0;
+		$number = 1;
         foreach ($xml->trackList->children() as $xml_tv_channel)
         {
             if ($xml_tv_channel->getName() !== 'track')
@@ -102,7 +102,7 @@ class DemoTv extends AbstractTv
             }
 
 			
-            $number = intval($xml_tv_channel->extension->children(self::VLC));
+            $id = intval($xml_tv_channel->extension->children(self::VLC));
 
 			//does channel have ps?
 			$psname=null;
@@ -129,7 +129,7 @@ class DemoTv extends AbstractTv
 					$psshift);
 
             $this->channels->put($channel);
-			$id++;
+			$number++;
         }
 
         //parse groups
@@ -163,14 +163,10 @@ class DemoTv extends AbstractTv
             foreach($xml_tv_category->children(self::VLC) as $cat_item)
             {
                 $number = intval($cat_item->attributes()->tid);
-				//  $channel = $this->channels->get($ch_id);
-				$channel = $this->getChannelByNumber($number);
-				if ($channel!=NULL)
-				{
-					$channel->add_group($group);
-					$group->add_channel($channel);
-				}
-                    
+				$channel = $this->channels->get($ch_id);
+				$channel->add_group($group);
+				$group->add_channel($channel);
+	                
             }
         }
     }
@@ -214,7 +210,7 @@ class DemoTv extends AbstractTv
             hd_print("schedule downloaded for ".($ts2-$ts1));
         }
 
-	$current = $channel->get($channel_id);
+	$current = $this->channels->get($channel_id);
 	$num = $current->get_psname();
 	$regshift=0;
 	if ($num!=NULL)
