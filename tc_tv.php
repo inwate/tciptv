@@ -164,10 +164,12 @@ class DemoTv extends AbstractTv
             {
                 $number = intval($cat_item->attributes()->tid);
 				//  $channel = $this->channels->get($ch_id);
-				if ($this->getChannelByNumber($number)!=NULL)
-				$channel->add_group($group);
-
-                $group->add_channel($channel);
+				$channel = $this->getChannelByNumber($number);
+				if ($channel!=NULL)
+				{
+					$channel->add_group($group);
+					$group->add_channel($channel);
+				}
                     
             }
         }
