@@ -13,8 +13,8 @@ require_once 'tc_channel.php';
 class DemoTv extends AbstractTv
 {
     private $chid2num;
-    private $pstc;
-    private $psshift;
+//    private $pstc;
+//    private $psshift;
     private $parsed_schedule = null;
     private $ndx_map;
     private $pdt_map;

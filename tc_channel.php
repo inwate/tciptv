@@ -15,19 +15,7 @@ class IPTVChannel extends DefaultChannel
 
     ///////////////////////////////////////////////////////////////////////
 
-    public function __construct(
-        $id, $title, $icon_url, $streaming_url, $number, $past_epg_days, $future_epg_days)
-    {
 
-        parent::__construct($id, $title, $icon_url, $streaming_url);
-
-        $this->number = $number;
-        $this->past_epg_days = $past_epg_days;
-        $this->future_epg_days = $future_epg_days;
-		$psname=null;
-		$psshift=null;
-    }
-	
 	public function __construct(
         $id, $title, $icon_url, $streaming_url, $number, $past_epg_days, $future_epg_days,$psname,$psshift)
     {
