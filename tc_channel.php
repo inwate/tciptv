@@ -25,8 +25,8 @@ class IPTVChannel extends DefaultChannel
         $this->number = $number;
         $this->past_epg_days = $past_epg_days;
         $this->future_epg_days = $future_epg_days;
-		$this->psname;
-		$this->psshift;
+		$this->psname=$psname;
+		$this->psshift=$psshift;
 
     }
 
