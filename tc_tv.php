@@ -70,7 +70,7 @@ class DemoTv extends AbstractTv
         $this->groups = new HashedArray();
         $this->chid2num = array();
         $this->pstc = array();
-	$this->psshift = array();
+		$this->psshift = array();
 
         if ($this->is_favorites_supported())
         {
@@ -91,7 +91,7 @@ class DemoTv extends AbstractTv
         
 
         //parse channels
-
+		$id = 0;
         foreach ($xml->trackList->children() as $xml_tv_channel)
         {
             if ($xml_tv_channel->getName() !== 'track')
@@ -101,36 +101,36 @@ class DemoTv extends AbstractTv
                 throw new Exception('Invalid XML document');
             }
 
+			
+            $number = intval($xml_tv_channel->extension->children(self::VLC));
 
-            $ch_id = intval($xml_tv_channel->extension->children(self::VLC));
-            //$num = intval($xml_tv_channel->psfile);
-            //$pstc = $xml_tv_channel->psfile; 
+			//does channel have ps?
+			$psname=null;
+			$psshift=null;
+            if (isset($xml_tv_channel->psfile))
+            {
+        		$psname=(string)$xml_tv_channel->psfile;
+    			if(isset($xml_tv_channel->shift))
+    		    	$psshift=intval($xml_tv_channel->shift)*60;
+    			else
+    		    	$psshift=0;
+			}
 
             $channel =
-                new DemoChannel(
-                    strval($ch_id),
+                new IPTVChannel(
+                    strval($id),
                     strval($xml_tv_channel->title),
                     strval($xml_tv_channel->image),
                     strval($xml_tv_channel->location),
-                    strval($ch_id),
+                    strval($number),
                     intval(2),
-                    intval(2));
+                    intval(2),
+					$psname,
+					$psshift);
 
             $this->channels->put($channel);
-            
-            //$this->chid2num[$ch_id] = $num;
-            if (isset($xml_tv_channel->psfile))
-            {
-        	$this->pstc[$ch_id]=(string)$xml_tv_channel->psfile;
-    		if(isset($xml_tv_channel->shift))
-    		    $this->psshift[$ch_id]=intval($xml_tv_channel->shift)*60;
-    		else
-    		    $this->psshift[$ch_id]=0;
-    	    }
-
+			$id++;
         }
-
-
 
         //parse groups
 
@@ -144,14 +144,14 @@ class DemoTv extends AbstractTv
 
             switch ($group_title) {
 
-                case "Познавательные" :                   $group_icon = "plugin_file://icons/grp_edu.png"; break;
-                case "Бизнес" :                           $group_icon = "plugin_file://icons/grp_news.png"; break;
+                case "Познавательные" :                   	$group_icon = "plugin_file://icons/grp_edu.png"; break;
+                case "Бизнес" :                           	$group_icon = "plugin_file://icons/grp_news.png"; break;
                 case "Эфир" :                               $group_icon = "plugin_file://icons/grp_air.png"; break;
-                case "Детям и мамам" :                       $group_icon = "plugin_file://icons/grp_kids.png"; break;
+                case "Детям и мамам" :                      $group_icon = "plugin_file://icons/grp_kids.png"; break;
                 case "Кино и сериалы" :                     $group_icon = "plugin_file://icons/grp_cinema.png"; break;
-                case "Развлекательные" :         $group_icon = "plugin_file://icons/grp_hobby.png"; break;
-                case "Музыкальные" :                 $group_icon = "plugin_file://icons/grp_music.png"; break;
-                case "Спорт" :                             $group_icon = "plugin_file://icons/grp_sport.png"; break;
+                case "Развлекательные" :         			$group_icon = "plugin_file://icons/grp_hobby.png"; break;
+                case "Музыкальные" :                 		$group_icon = "plugin_file://icons/grp_music.png"; break;
+                case "Спорт" :                             	$group_icon = "plugin_file://icons/grp_sport.png"; break;
             }
 
             $group = new DefaultGroup(strval($group_num), $group_title, $group_icon);
@@ -162,9 +162,11 @@ class DemoTv extends AbstractTv
 
             foreach($xml_tv_category->children(self::VLC) as $cat_item)
             {
-                $ch_id = intval($cat_item->attributes()->tid);
-                $channel = $this->channels->get($ch_id);
-                $channel->add_group($group);
+                $number = intval($cat_item->attributes()->tid);
+				//  $channel = $this->channels->get($ch_id);
+				if ($this->getChannelByNumber($number)!=NULL)
+				$channel->add_group($group);
+
                 $group->add_channel($channel);
                     
             }
@@ -210,14 +212,23 @@ class DemoTv extends AbstractTv
             hd_print("schedule downloaded for ".($ts2-$ts1));
         }
 
-
+	$current = $channel->get($channel_id);
+	$num = $current->get_psname();
+	$regshift=0;
+	if ($num!=NULL)
+	{
+		 $regshift = $current->get_psshift();
+		 if ($regshift==NULL)
+		 	$regshift=0;	
+	}
+/*
 	$num = $this->pstc[$channel_id];
 	if (isset($this->psshift[$channel_id]))
 	    $regshift = $this->psshift[$channel_id];
 	else
 	    $regshift=0;
         //$num = $this->chid2num[$channel_id];
-
+*/
         $epg = array();
 
         if (array_key_exists($num, $this->ndx_map)) {
@@ -283,6 +294,17 @@ class DemoTv extends AbstractTv
         return new EpgIterator($filtered_epg, $day_start_ts, $day_start_ts + 86400);
     }
 
+	private function getChannelByNumber($number)
+	{
+		$this->channels->rewind();
+		while($this->channels->valid())
+		{
+			$channel = $this->channels->current();
+			if(($channel->get($number))==$number)
+				return $channel;
+		}
+		return null;
+	}
 
 }
 
