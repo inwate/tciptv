@@ -6,13 +6,13 @@ require_once 'lib/vod/movie.php';
 
 ///////////////////////////////////////////////////////////////////////////
 
-class DemoVod extends AbstractVod
+class TeleconnectVod extends AbstractVod
 {
     public function __construct()
     {
         parent::__construct(
-            DemoConfig::VOD_FAVORITES_SUPPORTED,
-            DemoConfig::VOD_MOVIE_PAGE_SUPPORTED,
+            TeleconnectConfig::VOD_FAVORITES_SUPPORTED,
+            TeleconnectConfig::VOD_MOVIE_PAGE_SUPPORTED,
             true);
     }
 
@@ -23,7 +23,7 @@ class DemoVod extends AbstractVod
         $doc =
             HD::http_get_document(
                 sprintf(
-                    DemoConfig::MOVIE_INFO_URL_FORMAT,
+                    TeleconnectConfig::MOVIE_INFO_URL_FORMAT,
                     $movie_id));
      
         if (is_null($doc))
@@ -165,7 +165,7 @@ class DemoVod extends AbstractVod
 
     public function get_vod_list_folder_views()
     {
-        return DemoConfig::GET_VOD_MOVIE_LIST_FOLDER_VIEWS();
+        return TeleconnectConfig::GET_VOD_MOVIE_LIST_FOLDER_VIEWS();
     }
 }
 

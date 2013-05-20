@@ -23,26 +23,26 @@ require_once 'tc_vod_list_screen.php';
 
 ///////////////////////////////////////////////////////////////////////////
 
-class DemoPlugin extends DefaultDunePlugin
+class TeleconnectPlugin extends DefaultDunePlugin
 {
     public function __construct()
     {
-        $this->tv = new DemoTv();
-        $this->vod = new DemoVod();
+        $this->tv = new TeleconnectTv();
+        $this->vod = new TeleconnectVod();
 
         $tv_folder_views = $this->get_tv_folder_views();
 
         $this->add_screen(new TvGroupListScreen($this->tv,
-                DemoConfig::GET_TV_GROUP_LIST_FOLDER_VIEWS()));
+                TeleconnectConfig::GET_TV_GROUP_LIST_FOLDER_VIEWS()));
         $this->add_screen(new TvChannelListScreen($this->tv,
-                DemoConfig::GET_TV_CHANNEL_LIST_FOLDER_VIEWS()));
+                TeleconnectConfig::GET_TV_CHANNEL_LIST_FOLDER_VIEWS()));
         $this->add_screen(new TvFavoritesScreen($this->tv,
-                DemoConfig::GET_TV_CHANNEL_LIST_FOLDER_VIEWS()));
+                TeleconnectConfig::GET_TV_CHANNEL_LIST_FOLDER_VIEWS()));
 
-        $this->add_screen(new DemoSetupScreen());
+        $this->add_screen(new TeleconnectSetupScreen());
         $this->add_screen(new VodFavoritesScreen($this->vod));
-        $this->add_screen(new DemoVodCategoryListScreen());
-        $this->add_screen(new DemoVodListScreen($this->vod));
+        $this->add_screen(new TeleconnectVodCategoryListScreen());
+        $this->add_screen(new TeleconnectVodListScreen($this->vod));
         $this->add_screen(new VodMovieScreen($this->vod));
         $this->add_screen(new VodSeriesListScreen($this->vod));
     }
@@ -51,7 +51,7 @@ class DemoPlugin extends DefaultDunePlugin
 
     private function get_tv_folder_views()
     {
-        return DemoConfig::GET_TV_CHANNEL_LIST_FOLDER_VIEWS();
+        return TeleconnectConfig::GET_TV_CHANNEL_LIST_FOLDER_VIEWS();
     }
 }
 

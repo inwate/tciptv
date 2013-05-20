@@ -3,7 +3,7 @@
 
 require_once 'lib/vod/vod_list_screen.php';
 
-class DemoVodListScreen extends VodListScreen
+class TeleconnectVodListScreen extends VodListScreen
 {
     public static function get_media_url_str($cat_id)
     {
@@ -27,7 +27,7 @@ class DemoVodListScreen extends VodListScreen
         $doc =
             HD::http_get_document(
                 sprintf(
-                    DemoConfig::MOVIE_LIST_URL_FORMAT,
+                    TeleconnectConfig::MOVIE_LIST_URL_FORMAT,
                     $media_url->category_id));
      
         if (is_null($doc))

@@ -6,7 +6,7 @@ require_once 'tc_vod_list_screen.php';
 
 ///////////////////////////////////////////////////////////////////////////
 
-class DemoVodCategoryListScreen extends AbstractPreloadedRegularScreen
+class TeleconnectVodCategoryListScreen extends AbstractPreloadedRegularScreen
 {
     const ID = 'vod_category_list';
 
@@ -66,17 +66,17 @@ class DemoVodCategoryListScreen extends AbstractPreloadedRegularScreen
 
         $items = array();
 
-        if (DemoConfig::VOD_FAVORITES_SUPPORTED &&
+        if (TeleconnectConfig::VOD_FAVORITES_SUPPORTED &&
             !isset($media_url->category_id))
         {
             $items[] = array
             (
                 PluginRegularFolderItem::media_url => VodFavoritesScreen::get_media_url_str(),
-                PluginRegularFolderItem::caption => DemoConfig::FAV_MOVIES_CATEGORY_CAPTION,
+                PluginRegularFolderItem::caption => TeleconnectConfig::FAV_MOVIES_CATEGORY_CAPTION,
                 PluginRegularFolderItem::view_item_params => array
                 (
-                    ViewItemParams::icon_path => DemoConfig::FAV_MOVIES_CATEGORY_ICON_PATH,
-                    ViewItemParams::item_detailed_icon_path => DemoConfig::FAV_MOVIES_CATEGORY_ICON_PATH,
+                    ViewItemParams::icon_path => TeleconnectConfig::FAV_MOVIES_CATEGORY_ICON_PATH,
+                    ViewItemParams::item_detailed_icon_path => TeleconnectConfig::FAV_MOVIES_CATEGORY_ICON_PATH,
                 )
             );
         }
@@ -85,7 +85,7 @@ class DemoVodCategoryListScreen extends AbstractPreloadedRegularScreen
         {
             $is_movie_list = is_null($c->get_sub_categories());
             $media_url_str = $is_movie_list ?
-                DemoVodListScreen::get_media_url_str($c->get_id()) :
+                TeleconnectVodListScreen::get_media_url_str($c->get_id()) :
                 self::get_media_url_str($c->get_id());
 
             $items[] = array
@@ -107,7 +107,7 @@ class DemoVodCategoryListScreen extends AbstractPreloadedRegularScreen
 
     private function fetch_vod_categories()
     {
-        $doc = HD::http_get_document(DemoConfig::VOD_CATEGORIES_URL);
+        $doc = HD::http_get_document(TeleconnectConfig::VOD_CATEGORIES_URL);
      
         if (is_null($doc))
             throw new Exception('Can not fetch playlist');
@@ -140,7 +140,7 @@ class DemoVodCategoryListScreen extends AbstractPreloadedRegularScreen
         foreach ($xml_categories as $c)
         {
             $cat =
-                new DemoVodCategory(
+                new TeleconnectVodCategory(
                     strval($c->id),
                     strval($c->caption),
                     strval($c->icon_url));
@@ -162,7 +162,7 @@ class DemoVodCategoryListScreen extends AbstractPreloadedRegularScreen
 
     private function get_folder_views()
     {
-        return DemoConfig::GET_VOD_CATEGORY_LIST_FOLDER_VIEWS();
+        return TeleconnectConfig::GET_VOD_CATEGORY_LIST_FOLDER_VIEWS();
     }
 }
 

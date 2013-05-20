@@ -1,7 +1,7 @@
 <?php
 ///////////////////////////////////////////////////////////////////////////
 
-class DemoVodCategory
+class TeleconnectVodCategory
 {
     private $id;
     private $caption;

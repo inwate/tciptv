@@ -5,7 +5,7 @@ require_once 'lib/abstract_controls_screen.php';
 
 ///////////////////////////////////////////////////////////////////////////
 
-class DemoSetupScreen extends AbstractControlsScreen
+class TeleconnectSetupScreen extends AbstractControlsScreen
 {
     const ID = 'setup';
 

@@ -10,7 +10,7 @@ require_once 'tc_channel.php';
 
 ///////////////////////////////////////////////////////////////////////////
 
-class DemoTv extends AbstractTv
+class TeleconnectTv extends AbstractTv
 {
     private $chid2num;
 //    private $pstc;
@@ -26,14 +26,14 @@ class DemoTv extends AbstractTv
     {
         parent::__construct(
             AbstractTv::MODE_CHANNELS_N_TO_M,
-            DemoConfig::TV_FAVORITES_SUPPORTED,
+            TeleconnectConfig::TV_FAVORITES_SUPPORTED,
             true);
 
     }
 
     public function get_fav_icon_url()
     {
-        return DemoConfig::FAV_CHANNEL_GROUP_ICON_PATH;
+        return TeleconnectConfig::FAV_CHANNEL_GROUP_ICON_PATH;
     }
 
     ///////////////////////////////////////////////////////////////////////
@@ -44,7 +44,7 @@ class DemoTv extends AbstractTv
 
         date_default_timezone_set('Etc/GMT+7');
 
-        $doc = HD::http_get_document(DemoConfig::CHANNEL_LIST_URL);
+        $doc = HD::http_get_document(TeleconnectConfig::CHANNEL_LIST_URL);
      
         if (is_null($doc))
             throw new Exception('Can not fetch playlist');
@@ -78,16 +78,16 @@ class DemoTv extends AbstractTv
                 new FavoritesGroup(
                     $this,
                     '__favorites',
-                    DemoConfig::FAV_CHANNEL_GROUP_CAPTION,
-                    DemoConfig::FAV_CHANNEL_GROUP_ICON_PATH));
+                    TeleconnectConfig::FAV_CHANNEL_GROUP_CAPTION,
+                    TeleconnectConfig::FAV_CHANNEL_GROUP_ICON_PATH));
         }
 
 
         $this->groups->put(
             new AllChannelsGroup(
                 $this,
-                DemoConfig::ALL_CHANNEL_GROUP_CAPTION,
-                DemoConfig::ALL_CHANNEL_GROUP_ICON_PATH));
+                TeleconnectConfig::ALL_CHANNEL_GROUP_CAPTION,
+                TeleconnectConfig::ALL_CHANNEL_GROUP_ICON_PATH));
         
 
         //parse channels
@@ -186,7 +186,7 @@ class DemoTv extends AbstractTv
 
             $this->parsed_schedule = array();
 
-            file_put_contents("/tmp/schedule.zip", file_get_contents(DemoConfig::EPG_URL));
+            file_put_contents("/tmp/schedule.zip", file_get_contents(TeleconnectConfig::EPG_URL));
             $zip = zip_open("/tmp/schedule.zip");
 
             while(($zip_entry = zip_read($zip)) !== false) {

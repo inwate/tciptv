@@ -5,7 +5,7 @@ require_once 'lib/default_dune_plugin_fw.php';
 
 require 'tc_plugin.php';
 
-DefaultDunePluginFw::$plugin_class_name = 'DemoPlugin';
+DefaultDunePluginFw::$plugin_class_name = 'TeleconnectPlugin';
 
 ///////////////////////////////////////////////////////////////////////////
 ?>

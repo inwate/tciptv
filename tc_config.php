@@ -1,6 +1,6 @@
 ﻿<?php
 
-class DemoConfig
+class TeleconnectConfig
 {
     const VOD_MOVIE_PAGE_SUPPORTED = true;
     const VOD_FAVORITES_SUPPORTED  = true;
