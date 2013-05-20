@@ -69,8 +69,8 @@ class DemoTv extends AbstractTv
         $this->channels = new HashedArray();
         $this->groups = new HashedArray();
         $this->chid2num = array();
-        $this->pstc = array();
-		$this->psshift = array();
+     //   $this->pstc = array();
+	//	$this->psshift = array();
 
         if ($this->is_favorites_supported())
         {
@@ -105,15 +105,15 @@ class DemoTv extends AbstractTv
             $id = intval($xml_tv_channel->extension->children(self::VLC));
 
 			//does channel have ps?
-			$psname=null;
-			$psshift=null;
+			$_psname=null;
+			$_psshift=null;
             if (isset($xml_tv_channel->psfile))
             {
-        		$psname=(string)$xml_tv_channel->psfile;
+        		$_psname=(string)$xml_tv_channel->psfile;
     			if(isset($xml_tv_channel->shift))
-    		    	$psshift=intval($xml_tv_channel->shift)*60;
+    		    	$_psshift=intval($xml_tv_channel->shift)*60;
     			else
-    		    	$psshift=0;
+    		    	$_psshift=0;
 			}
 
             $channel =
@@ -125,8 +125,8 @@ class DemoTv extends AbstractTv
                     strval($number),
                     intval(2),
                     intval(2),
-					$psname,
-					$psshift);
+					$_psname,
+					$_psshift);
 
             $this->channels->put($channel);
 			$number++;
