@@ -300,8 +300,9 @@ class DemoTv extends AbstractTv
 		while($this->channels->valid())
 		{
 			$channel = $this->channels->current();
-			if(($channel->get($number))==$number)
+			if($channel->get_number()==$number)
 				return $channel;
+			$this->channels->next();
 		}
 		return null;
 	}
