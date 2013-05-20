@@ -162,7 +162,7 @@ class DemoTv extends AbstractTv
 
             foreach($xml_tv_category->children(self::VLC) as $cat_item)
             {
-                $number = intval($cat_item->attributes()->tid);
+                $ch_id = intval($cat_item->attributes()->tid);
 				$channel = $this->channels->get($ch_id);
 				$channel->add_group($group);
 				$group->add_channel($channel);
